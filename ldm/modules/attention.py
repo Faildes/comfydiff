@@ -9,14 +9,14 @@ import logging
 from .diffusionmodules.util import AlphaBlender, timestep_embedding
 from .sub_quadratic_attention import efficient_dot_product_attention
 
-import ...model_management as model_management
+from ... import model_management, ops
 
 if model_management.xformers_enabled():
     import xformers
     import xformers.ops
 
 from ...cli_args import args
-import ...ops as ops
+
 ops = ops.disable_weight_init
 
 FORCE_UPCAST_ATTENTION_DTYPE = model_management.force_upcast_attention_dtype()

@@ -11,8 +11,6 @@ class SDXL:
 
     def encode_from_tokens(self, tokens, return_pooled=False, return_dict=False):
         self.clip.reset_clip_options()
-
-        self.load_model()
         o = self.clip.encode_token_weights(tokens)
         cond, pooled = o[:2]
         if return_dict:

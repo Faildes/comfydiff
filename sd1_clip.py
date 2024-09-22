@@ -1,7 +1,6 @@
 import os
 
 from transformers import CLIPTokenizer
-import ops
 import torch
 import traceback
 import zipfile

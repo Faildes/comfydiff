@@ -41,7 +41,7 @@ class SDXL:
         else:
             if cond_len > uncond_len:
                 n = (cond_len - uncond_len) // 77
-                return [cond, cond_pooled], [torch.cat([uncond] + [self.encode("")[0]]*n, dim=1), uncode_pooled]
+                return [cond, cond_pooled], [torch.cat([uncond] + [self.encode("")[0]]*n, dim=1), uncond_pooled]
             else:
                 n = (uncond_len - cond_len) // 77
                 return [torch.cat([cond] + [self.encode("")[0]]*n, dim=1),cond_pooled], [uncond, uncond_pooled]

@@ -17,8 +17,8 @@
 """
 
 import torch
-import model_management
-from cli_args import args
+import .model_management
+from .cli_args import args
 
 def cast_to(weight, dtype=None, device=None, non_blocking=False, copy=False):
     if device is None or weight.device == device:

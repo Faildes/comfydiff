@@ -1,4 +1,4 @@
-import sd1_clip
+import .sd1_clip
 import torch
 import os
 

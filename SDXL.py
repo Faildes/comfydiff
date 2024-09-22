@@ -1,4 +1,4 @@
-from sdxl_clip import SDXLClipModel, SDXLTokenizer
+from .sdxl_clip import SDXLClipModel, SDXLTokenizer
 
 class SDXL:
     def __init__(self, device="cpu", dtype=None,model_options={}):

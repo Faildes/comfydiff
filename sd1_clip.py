@@ -5,8 +5,7 @@ import ops
 import torch
 import traceback
 import zipfile
-import model_management
-import clip_model
+from . import clip_model, model_management, ops
 import json
 import logging
 import numbers

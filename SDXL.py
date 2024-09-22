@@ -10,10 +10,10 @@ class SDXL:
         return self.tokenizer.tokenize_with_weights(text, return_word_ids)
 
     def encode_from_tokens(self, tokens, return_pooled=False, return_dict=False):
-        self.cond_stage_model.reset_clip_options()
+        self.clip.reset_clip_options()
 
         self.load_model()
-        o = self.cond_stage_model.encode_token_weights(tokens)
+        o = self.clip.encode_token_weights(tokens)
         cond, pooled = o[:2]
         if return_dict:
             out = {"cond": cond, "pooled_output": pooled}

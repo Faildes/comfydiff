@@ -1,4 +1,5 @@
 from .sdxl_clip import SDXLClipModel, SDXLTokenizer
+import torch
 
 class SDXL:
     def __init__(self, device="cpu", dtype=None,model_options={}):

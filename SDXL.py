@@ -1,11 +1,10 @@
-from .sdxl_clip import SDXLClipModel, SDXLTokenizer
+from . import sdxl_clip
 import torch
 
 class SDXL:
-    def __init__(self, device="cpu", dtype=None,model_options={}):
-        model_options["dtype"] = dtype
-        self.tokenizer = SDXLTokenizer()
-        self.clip = SDXLClipModel(device, dtype)
+    def __init__(self, device="cpu", dtype=None):
+        self.tokenizer = sdxl_clip.SDXLTokenizer()
+        self.clip = sdxl_clip.SDXLClipModel(device, dtype)
 
     def tokenize(self, text, return_word_ids=False):
         return self.tokenizer.tokenize_with_weights(text, return_word_ids)
@@ -34,14 +33,12 @@ class SDXL:
         cond, cond_pooled = self.encode(prompt)
         uncond, uncond_pooled = self.encode(negative_prompt)
 
-        cond_len = cond.shape[1]
-        uncond_len = uncond.shape[1]
-        if cond_len == uncond_len:
-            return [cond, cond_pooled], [uncond, uncond_pooled]
-        else:
-            if cond_len > uncond_len:
-                n = (cond_len - uncond_len) // 77
-                return [cond, cond_pooled], [torch.cat([uncond] + [self.encode("")[0]]*n, dim=1), uncond_pooled]
-            else:
-                n = (uncond_len - cond_len) // 77
-                return [torch.cat([cond] + [self.encode("")[0]]*n, dim=1),cond_pooled], [uncond, uncond_pooled]
+        empty = self.encode("")[0]
+        cond_shape = cond.shape[0]
+        empty_z = torch.cat([empty] * cond_shape)
+        max_token_count = max([cond.shape[1], uncond.shape[1]])
+        while cond.shape[1] < max_token_count:
+            cond = torch.cat([cond, empty_z], dim=1)
+        while uncond.shape[1] < max_token_count:
+            uncond = torch.cat([uncond, empty_z], dim=1)
+        return cond, cond_pooled, uncond, uncond_pooled
